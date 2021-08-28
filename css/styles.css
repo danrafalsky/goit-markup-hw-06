@@ -30,10 +30,13 @@ img {
   /* Хроматические Цвета */
   --chromatic-color: #2196f3;
   --chromatic-color-hover: #188ce8;
+
   /* Цвета логотипов в Хедере и Футере */
   --logo-header: #000000;
   --logo-footer: #ffffff;
+
   /* Цвета теней и границ */
+  --close-modal-border: rgba(0, 0, 0, 0.1);
   --button-shadow: rgba(0%, 0%, 0%, 15%);
   --filter-buttons-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1),
     0px 1px 2px rgba(0, 0, 0, 0.08), 0px 2px 2px rgba(0, 0, 0, 0.12);
@@ -41,11 +44,18 @@ img {
   --portfolio-border-color: #eeeeee;
   --portfolio-items-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12),
     0px 4px 4px rgba(0, 0, 0, 0.06), 1px 4px 6px rgba(0, 0, 0, 0.16);
+  --modal-input-border: 1px solid rgba(33, 33, 33, 0.2);
+  --submit-button-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  --footer-subscribe-input-border: 1px solid rgba(255, 255, 255, 0.3);
+  --footer-subscribe-input-border-hover: 1px solid var(--chromatic-color);
+
   /* Цвета ФОНОВ и ТЕКСТА */
-  --invisible-heading: rgba(0%, 0%, 0%, 0%);
+  --invisible: rgba(0%, 0%, 0%, 0%);
   --icons-color: #afb1b8;
   --heading-color: #212121;
   --footer-kontakts-color: rgba(100%, 100%, 100%, 60%);
+  --comments-textarea-color: rgba(117, 117, 117, 0.5);
+  --footer-subscribe-textarea-color: rgba(255, 255, 255, 0.6);
   --bg-backdrop: rgba(0, 0, 0, 0.2);
   --modal-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12),
     0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.2);
@@ -60,6 +70,7 @@ img {
   --text-color-first: #212121;
   --text-color-second: #757575;
   --text-color-third: #ffffff;
+
   /* Переход */
   --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -81,9 +92,14 @@ ul {
 }
 
 .invisible-heading {
-  display: none;
-  color: var(--invisible-heading);
-  font-size: 0px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 
 /* ХЕДЕР */
@@ -293,7 +309,7 @@ ul {
   margin-left: 70px;
 }
 
-.join h3 {
+.footer-heading {
   color: var(--text-color-third);
   font-style: normal;
   font-weight: 700;
@@ -302,6 +318,82 @@ ul {
   letter-spacing: 0.03em;
   text-transform: uppercase;
   margin: 0px 0px 20px 0px;
+}
+
+/* секция подписки в Футере */
+
+.footer-subscribe-section {
+  display: block;
+  margin-left: auto;
+}
+
+.footer-subscribe {
+  display: flex;
+}
+
+.footer-subscribe-input {
+  display: flex;
+  border: var(--footer-subscribe-input-border);
+  box-sizing: border-box;
+  filter: drop-shadow(var(--submit-button-shadow));
+  border-radius: 4px;
+  background-color: inherit;
+  width: 358px;
+  height: 50px;
+  padding: 15px;
+  transition: border 250ms var(--timing-function);
+
+  color: var(--text-color-third);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+}
+
+.footer-subscribe-input::placeholder {
+  color: var(--footer-subscribe-textarea-color);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+}
+
+.footer-subscribe-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 200px;
+  height: 50px;
+  font-family: Roboto;
+  color: var(--text-color-third);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.87;
+  letter-spacing: 0.06em;
+  background-color: var(--chromatic-color);
+  box-shadow: var(--submit-button-shadow);
+  border-radius: 4px;
+  margin-left: 12px;
+  padding: 0px;
+  border: none;
+  transition: background-color 250ms var(--timing-function);
+  cursor: pointer;
+}
+
+.footer-subscribe-button:hover,
+.footer-subscribe-button:focus {
+  background-color: var(--chromatic-color-hover);
+}
+
+.footer-subscribe-icon {
+  fill: currentColor;
+  margin-left: 10px;
 }
 
 /* Иконки Социальных Сетей */
@@ -744,6 +836,8 @@ ul {
 
 /* МОДАЛЬНОЕ ОКНО */
 
+/* бэкдроп */
+
 .backdrop {
   position: fixed;
   z-index: 1;
@@ -763,13 +857,15 @@ ul {
   transform: translate(-50%, -50%) scale(0%);
 }
 
+/* модальное окно */
+
 .modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(100%);
-  min-width: 528px;
-  min-height: 581px;
+  width: 528px;
+  height: 581px;
   padding: 40px;
   border-radius: 4px;
   background-color: var(--bg-color-first);
@@ -783,7 +879,7 @@ ul {
   right: 8px;
   width: 30px;
   height: 30px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--close-modal-border);
   box-sizing: border-box;
   border-radius: 50%;
   background-color: var(--bg-color-first);
@@ -804,4 +900,180 @@ ul {
 .close-modal:hover,
 .close-modal:focus {
   fill: var(--chromatic-color);
+}
+
+/* содержимое модального окна */
+
+.modal-title {
+  color: var(--text-color-first);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.15;
+  text-align: center;
+  letter-spacing: 0.03em;
+  margin: 0px 0px 12px 0px;
+  padding: 0px;
+}
+
+.modal-names {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  color: var(--text-color-second);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.17;
+  letter-spacing: 0.01em;
+}
+
+/* контейнеры для форм */
+
+.modal-form-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0px 10px;
+}
+
+.modal-form-container.comments {
+  margin-bottom: 20px;
+}
+
+.modal-form:focus-within {
+  border: 1px solid var(--chromatic-color);
+  outline: none;
+}
+
+/* формы */
+
+.modal-form {
+  display: flex;
+  height: 40px;
+  border: var(--modal-input-border);
+  border-radius: 4px;
+  padding: 12px 12px 12px 42px;
+  transition: border 250ms var(--timing-function);
+  resize: none;
+
+  color: var(--text-color-first);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.14;
+  letter-spacing: 0.01em;
+}
+
+.modal-form::placeholder {
+  color: var(--comments-textarea-color);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.14;
+  letter-spacing: 0.01em;
+}
+
+.modal-form:focus + .modal-icons {
+  fill: var(--chromatic-color);
+}
+
+.modal-form.comments {
+  height: 120px;
+  padding: 12px 16px;
+}
+
+.modal-icons {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  fill: var(--text-color-first);
+  transition: fill 250ms var(--timing-function);
+}
+
+/* чекбокс модального окна */
+
+.modal-checkbox-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.checkbox-text {
+  align-items: center;
+  color: var(--text-color-second);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.71;
+  letter-spacing: 0.03em;
+}
+
+.checkbox-text a {
+  color: var(--chromatic-color);
+  font-style: normal;
+  text-decoration-line: underline;
+}
+
+.checkbox-icon {
+  box-shadow: inset 0px 0px 0px 2px var(--text-color-first);
+  border-radius: 2px;
+  fill: var(--invisible);
+  display: flex;
+  margin-right: 7px;
+  transition: fill 250ms var(--timing-function),
+    box-shadow 250ms var(--timing-function);
+}
+
+.checkbox:checked + .checkbox-icon {
+  fill: var(--chromatic-color);
+  box-shadow: inset 0px 0px 0px 2px var(--chromatic-color);
+}
+
+/* кнопка "отправить" модального окна */
+
+.modal-submit-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.87;
+  letter-spacing: 0.06em;
+  color: var(--text-color-third);
+  background-color: var(--chromatic-color);
+  box-shadow: var(--modal-submit-button-shadow);
+  border: none;
+  border-radius: 4px;
+  width: 200px;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 250ms var(--timing-function);
+}
+
+.modal-submit-button:hover,
+.modal-submit-button:focus {
+  background-color: var(--chromatic-color-hover);
 }
